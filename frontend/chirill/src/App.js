@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
+import Default from './Default';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-function App() {
-  // Declare a new state variable, which we'll call "count"
-  const [count, setCount] = useState(0);
-
-  return (
+const App = () => (
+  <Router>
     <div>
-      <p>You clicked {count} times</p>
-      <button onClick={() => setCount(count + 1)}>
-        Click me
-      </button>
+      <Routes>
+        <Route path="/" element={<Default />} />
+      </Routes>
     </div>
-  );
-}
+  </Router>
+);
 
 export default App;
