@@ -1,52 +1,57 @@
 import ReactPlayer from 'react-player';
-import { useState } from 'react';
+import { useRef } from 'react';
 import videoFile from './resources/vid.mp4';
 
 const Video = () => {
-    const [playing, setPlaying] = useState(false); // Управление воспроизведением видео
+    const playerRef = useRef(null);
+
+    // Функция для воспроизведения видео
+  const handlePlay = () => {
+    if (playerRef.current) {
+      playerRef.current.seekTo(0); // Перематываем видео на начало
+      playerRef.current.getInternalPlayer().play(); // Воспроизводим видео
+    }
+  };
 
     return (
         <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            height: '100vh', // Задаем всю высоту экрана
-            backgroundColor: '#f4f4f4', // Фон для наглядности
-            textAlign: 'center',
-          }}
-        >
-          {/* Кнопка "Click" для запуска видео */}
-          {!playing && (
-            <button
-              onClick={() => setPlaying(true)} // Активируем воспроизведение
-              style={{
-                padding: '10px 20px',
-                fontSize: '18px',
-                backgroundColor: '#007bff',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                marginBottom: '20px',
-              }}
-            >
-              Click
-            </button>
-          )}
-    
-          {/* Видео отображается только при срабатывании состояния */}
-          {playing && (
-            <ReactPlayer
-              url={videoFile} // Укажите свой путь к видео
-              controls={true} // Показываем элементы управления
-              playing={true}
-              width="640px" // Ширина видео
-              height="360px" // Высота видео
-            />
-          )}
-        </div>
+      style={{
+        display: 'flex',
+        flexDirection: 'column', // Вертикальное выравнивание
+        alignItems: 'center', // Центрируем содержимое по горизонтали
+        justifyContent: 'center', // Центрируем содержимое по вертикали
+        height: '100vh',
+        backgroundColor: '#f4f4f4',
+      }}
+    >
+      {/* Видео */}
+      <ReactPlayer
+        ref={playerRef} // Подключаем реф к плееру
+        url={videoFile} // Видео URL
+        controls={false} // Показываем элементы управления
+        playing={false} // Видео не воспроизводится автоматически
+        width="640px" // Ширина
+        height="360px" // Высота
+      />
+
+      {/* Кнопка воспроизведения */}
+      <button
+        onClick={handlePlay}
+        style={{
+          padding: '10px 20px',
+          fontSize: '18px',
+          backgroundColor: '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          marginTop: '20px',
+          transition: 'transform 0.2s ease-in-out',
+        }}
+      >
+        Click
+      </button>
+    </div>
       );
 };
 
