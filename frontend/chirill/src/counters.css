@@ -1,0 +1,12 @@
+.container {
+    display: flex; /* Используем Flexbox */
+    justify-content: space-between; /* Распределяем пространство между блоками */
+    padding: 20px;
+}
+
+.block {
+    background-color: #f0f0f0; /* Цвет фона для визуализации блоков */
+    padding: 10px;
+    border: 1px solid #ccc; /* Рамка вокруг блоков */
+    width: 45%; /* Ширина блоков */
+}
