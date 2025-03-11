@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import Default from './Default';
 import Video from './Video';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -19,12 +18,11 @@ const App = () => {
   return (
     // Маршруты
     <Router>
-      <div>
+      
         <Routes>
-          <Route path="/" element={<Default />} />
-          <Route path="/video" element={<Video />} />
+          <Route path="/" element={<Video />} />
         </Routes>
-      </div>
+      
     </Router>
   );
 };

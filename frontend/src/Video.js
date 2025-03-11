@@ -1,50 +1,48 @@
-import ReactPlayer from 'react-player';
-import { useRef } from 'react';
-import { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import videoFile from './resources/vid.mp4';
 import congratulationsFile from './resources/congratulations.png';
 
-import "./counters.css"
+import "./counters.css";
 
 const Video = () => {
-    const playerRef = useRef(null);
-    const [count, setCount] = useState(0);
-    const aim = 20;
+  const videoRef = useRef(null);
+  const [count, setCount] = useState(0);
+  const aim = 20;
 
-    // Функция для воспроизведения видео
+  // Функция запуска воспроизведения видео
   const handlePlay = () => {
-    if (playerRef.current) {
-      if (count + 2 < aim) {
-        playerRef.current.seekTo(0); // Перематываем видео на начало
-        playerRef.current.getInternalPlayer().play(); // Воспроизводим видео
-      }
-      setCount(count + 1); // обновляем счетчик
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(error => {
+        console.log('something strange')
+      });
     }
+    setCount(prev => prev + 1);
   };
 
-  const renderMessage = () => {
-    if (count < aim ) {
-          return <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column', // Вертикальное выравнивание
-            alignItems: 'center', // Центрируем содержимое по горизонтали
-            justifyContent: 'center', // Центрируем содержимое по вертикали
-            height: '100vh',
-            backgroundColor: '#f4f4f4',
-          }}>
-
-          {/* Видео */}
-          <ReactPlayer
-            ref={playerRef} // Подключаем реф к плееру
-            url={videoFile} // Видео URL
-            controls={false} // Показываем элементы управления
-            playing={false} // Видео не воспроизводится автоматически
-            width="640px" // Ширина
-            height="360px" // Высота
+  return (
+    <div>
+      {count < aim ? (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // вертикально по центру
+          alignItems: 'center',     // горизонтально по центру
+          height: '100vh',          // по высоте занимаем весь экран устройства
+          width: '100%',            // используем всю ширину
+          textAlign: 'center'
+        }}>
+          <video
+            ref={videoRef}
+            src={videoFile}
+            width="auto"
+            height="70%"
+            playsInline
+            webkit-playsinline="true"
+            controls={false}
+            preload="auto"
           />
-  
-          {/* Кнопка воспроизведения */}
+
           <button
             onClick={handlePlay}
             style={{
@@ -57,30 +55,36 @@ const Video = () => {
               cursor: 'pointer',
               marginTop: '20px',
               transition: 'transform 0.2s ease-in-out',
-            }}>
+            }}
+          >
             Chinazes
-         </button>
+          </button>
 
-          <div class="container">
-            <div class="block">Набрано <br></br> {count}</div>
-            <div class="block">Цель <br></br> {aim}</div>
+          <div className="counters">
+            <div>Набрано<br /> {count}</div>
+            <div>Цель<br /> {aim}</div>
           </div>
-
-      </div>;
-
-    } else {
-         return <div
-        style={{ textAlign: 'center', margin: '20px' }}>
-
-          <img 
+        </div>
+      ) : (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // вертикально по центру
+          alignItems: 'center',     // горизонтально по центру
+          height: '100vh',          // по высоте занимаем весь экран устройства
+          width: '100%',            // используем всю ширину
+          textAlign: 'center'
+        }}>
+          <img
             src={congratulationsFile}
-            style={{ width: '300px', height: 'auto' }} 
+            alt="Congratulations"
+            style={{ width: 'auto', height: '70%' }}
           />
-         <p>
-           <b>Congratulations!</b>
-         </p>
+          <p>
+            <b>Congratulations!</b>
+          </p>
 
-         <button
+          <button
             style={{
               padding: '10px 20px',
               fontSize: '18px',
@@ -91,19 +95,14 @@ const Video = () => {
               cursor: 'pointer',
               marginTop: '20px',
               transition: 'transform 0.2s ease-in-out',
-            }}>
+            }}
+          >
             Go to next level
-         </button>
-
-        </div>;
-    }
-  };
-
-    return (
-        <div>
-          {renderMessage()}
+          </button>
         </div>
-      );
+      )}
+    </div>
+  );
 };
 
 export default Video;
