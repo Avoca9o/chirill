@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
-import videoFile from './resources/vid.mp4';
+import maskVideoFile from './resources/mask.mp4';
+import videoFile from './resources/tramp.mp4';
 import congratulationsFile from './resources/congratulations.png';
 
 import "./counters.css";
@@ -8,6 +9,8 @@ const Video = () => {
   const videoRef = useRef(null);
   const [count, setCount] = useState(0);
   const aim = 20;
+  const [count2, setCount2] = us eState(-1);
+  const aim2 = 30;
 
   // Функция запуска воспроизведения видео
   const handlePlay = () => {
@@ -18,6 +21,20 @@ const Video = () => {
       });
     }
     setCount(prev => prev + 1);
+  };
+
+  const handleNextLevel = () => {
+    setCount2(prev => prev + 1);
+  };
+
+  const handlePla2y = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play().catch(error => {
+        console.log('something strange')
+      });
+    }
+    setCount2(prev => prev + 1);
   };
 
   return (
@@ -34,7 +51,7 @@ const Video = () => {
         }}>
           <video
             ref={videoRef}
-            src={videoFile}
+            src={maskVideoFile}
             width="auto"
             height="70%"
             playsInline
@@ -66,6 +83,89 @@ const Video = () => {
           </div>
         </div>
       ) : (
+
+      {count2 == -1 ? (
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // вертикально по центру
+          alignItems: 'center',     // горизонтально по центру
+          height: '100vh',          // по высоте занимаем весь экран устройства
+          width: '100%',            // используем всю ширину
+          textAlign: 'center'
+        }}>
+          <img
+            src={congratulationsFile}
+            alt="Congratulations"
+            style={{ width: 'auto', height: '70%' }}
+          />
+          <p>
+            <b>Congratulations!</b>
+          </p>
+
+          <button
+            onClick={handleNextLevel}
+            style={{
+              padding: '10px 20px',
+              fontSize: '18px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              marginTop: '20px',
+              transition: 'transform 0.2s ease-in-out',
+            }}
+          >
+            Go to next level
+          </button>
+        </div>
+      ) : (
+        {count2 < aim2 ? (
+          <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center', // вертикально по центру
+          alignItems: 'center',     // горизонтально по центру
+          height: '100vh',          // по высоте занимаем весь экран устройства
+          width: '100%',            // используем всю ширину
+          textAlign: 'center'
+        }}>
+          <video
+            ref={videoRef}
+            src={videoFile}
+            width="auto"
+            height="70%"
+            playsInline
+            webkit-playsinline="true"
+            controls={false}
+            preload="auto"
+          />
+
+          <button
+            onClick={handlePlay2}
+            style={{
+              padding: '10px 20px',
+              fontSize: '18px',
+              backgroundColor: '#007bff',
+              color: 'white',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              marginTop: '20px',
+              transition: 'transform 0.2s ease-in-out',
+            }}
+          >
+            Chinazes
+          </button>
+
+          <div className="counters">
+            <div>Набрано<br /> {count2}</div>
+            <div>Цель<br /> {aim2}</div>
+          </div>
+        </div>
+        ) : (
+
         <div style={{
           display: 'flex',
           flexDirection: 'column',
@@ -100,6 +200,11 @@ const Video = () => {
             Go to next level
           </button>
         </div>
+
+        ) }
+      )
+
+
       )}
     </div>
   );
