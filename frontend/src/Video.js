@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import videoFile from './resources/vid.mp4';
+import videoFile from './resources/mask.mp4';
 import congratulationsFile from './resources/congratulations.png';
 
 import "./counters.css";
@@ -8,6 +8,7 @@ const Video = () => {
   const videoRef = useRef(null);
   const [count, setCount] = useState(0);
   const aim = 20;
+  const aim2 = 40;
 
   // Функция запуска воспроизведения видео
   const handlePlay = () => {
